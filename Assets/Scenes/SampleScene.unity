@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 310235277}
   - component: {fileID: 310235276}
   - component: {fileID: 310235275}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 557830821}
   - component: {fileID: 557830820}
   - component: {fileID: 557830819}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -857,11 +857,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   currentState: 0
   moveSpeed: 2
+  chaseSpeed: 3.5
   edgeCheck: {fileID: 9684280}
   rayDistance: 1
+  visionRange: 5
   groundLayer:
     serializedVersion: 2
+    m_Bits: 64
+  playerLayer:
+    serializedVersion: 2
     m_Bits: 8
+  player: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

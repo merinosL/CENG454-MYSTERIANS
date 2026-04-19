@@ -12,16 +12,26 @@ public class EnemyAI : MonoBehaviour
     public State currentState = State.Patrol;
 
     public float moveSpeed = 2f;
+    public float chaseSpeed = 3.5f;
     public Transform edgeCheck;
     public float rayDistance = 2f;
+    public float visionRange = 5f;
     public LayerMask groundLayer;
+    public LayerMask playerLayer;
 
     private Rigidbody2D rb;
     private bool movingRight = true;
+    public Transform player;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
+        if (player == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null) player = p.transform;
+        }
     }
 
     void Update()
@@ -30,6 +40,14 @@ public class EnemyAI : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
         }
+        else if (currentState == State.Patrol)
+        {
+            CheckForPlayer();
+        }
+        else if (currentState == State.Chase)
+        {
+            CheckIfPlayerLost();
+        }
     }
 
     void FixedUpdate()
@@ -37,6 +55,10 @@ public class EnemyAI : MonoBehaviour
         if (currentState == State.Patrol)
         {
             PatrolLogic();
+        }
+        else if (currentState == State.Chase)
+        {
+            ChaseLogic();
         }
     }
 
@@ -49,6 +71,39 @@ public class EnemyAI : MonoBehaviour
         if (groundInfo.collider == false)
         {
             Flip();
+        }
+    }
+
+    void ChaseLogic()
+    {
+        if (player == null) return;
+
+        float direction = Mathf.Sign(player.position.x - transform.position.x);
+        rb.linearVelocity = new Vector2(direction * chaseSpeed, rb.linearVelocity.y);
+
+        if (direction > 0 && !movingRight) Flip();
+        else if (direction < 0 && movingRight) Flip();
+    }
+
+    void CheckForPlayer()
+    {
+        Vector2 visionDirection = movingRight ? Vector2.right : Vector2.left;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, visionDirection, visionRange, playerLayer);
+
+        if (hit.collider != null)
+        {
+            currentState = State.Chase;
+        }
+    }
+
+    void CheckIfPlayerLost()
+    {
+        if (player == null) return;
+
+        float distance = Vector2.Distance(transform.position, player.position);
+        if (distance > visionRange + 2f)
+        {
+            currentState = State.Patrol;
         }
     }
 
@@ -88,5 +143,9 @@ public class EnemyAI : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawLine(edgeCheck.position, edgeCheck.position + Vector3.down * rayDistance);
         }
+
+        Gizmos.color = Color.yellow;
+        Vector2 visionDirection = movingRight ? Vector2.right : Vector2.left;
+        Gizmos.DrawLine(transform.position, (Vector2)transform.position + visionDirection * visionRange);
     }
 }
