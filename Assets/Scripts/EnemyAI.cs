@@ -16,12 +16,16 @@ public class EnemyAI : MonoBehaviour
     public Transform edgeCheck;
     public float rayDistance = 2f;
     public float visionRange = 5f;
+    public float patrolRadius = 5f;
     public LayerMask groundLayer;
     public LayerMask playerLayer;
 
     private Rigidbody2D rb;
     private bool movingRight = true;
     public Transform player;
+
+    private float leftBoundary;
+    private float rightBoundary;
 
     void Start()
     {
@@ -32,6 +36,8 @@ public class EnemyAI : MonoBehaviour
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p != null) player = p.transform;
         }
+
+        CalculateNewPatrolArea();
     }
 
     void Update()
@@ -68,7 +74,9 @@ public class EnemyAI : MonoBehaviour
 
         RaycastHit2D groundInfo = Physics2D.Raycast(edgeCheck.position, Vector2.down, rayDistance, groundLayer);
 
-        if (groundInfo.collider == false)
+        if (groundInfo.collider == false || 
+            (movingRight && transform.position.x >= rightBoundary) || 
+            (!movingRight && transform.position.x <= leftBoundary))
         {
             Flip();
         }
@@ -104,7 +112,14 @@ public class EnemyAI : MonoBehaviour
         if (distance > visionRange + 2f)
         {
             currentState = State.Patrol;
+            CalculateNewPatrolArea();
         }
+    }
+
+    void CalculateNewPatrolArea()
+    {
+        leftBoundary = transform.position.x - patrolRadius;
+        rightBoundary = transform.position.x + patrolRadius;
     }
 
     void Flip()
@@ -147,5 +162,12 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Vector2 visionDirection = movingRight ? Vector2.right : Vector2.left;
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + visionDirection * visionRange);
+
+        float drawLeft = Application.isPlaying ? leftBoundary : transform.position.x - patrolRadius;
+        float drawRight = Application.isPlaying ? rightBoundary : transform.position.x + patrolRadius;
+        
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(new Vector2(drawLeft, transform.position.y - 1), new Vector2(drawLeft, transform.position.y + 1));
+        Gizmos.DrawLine(new Vector2(drawRight, transform.position.y - 1), new Vector2(drawRight, transform.position.y + 1));
     }
 }
