@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class BossAI : MonoBehaviour
 {
-    public float jumpForceX = 7f;
-    public float jumpForceY = 12f;
+    public float jumpForceX = 12f;
+    public float jumpForceY = 14f;
     public float jumpDelay = 3f;
     public Transform groundCheck;
+    public Transform edgeCheck;
     public float groundCheckRadius = 0.4f;
+    public float edgeRayDistance = 2f;
     public LayerMask groundLayer;
 
     private Rigidbody2D rb;
@@ -37,7 +39,7 @@ public class BossAI : MonoBehaviour
             jumpTimer -= Time.deltaTime;
             if (jumpTimer <= 0f)
             {
-                JumpAttack();
+                CheckAndJump();
                 jumpTimer = jumpDelay;
             }
         }
@@ -49,11 +51,24 @@ public class BossAI : MonoBehaviour
         else if (player.position.x < transform.position.x && facingRight) Flip();
     }
 
+    void CheckAndJump()
+    {
+        RaycastHit2D edgeInfo = Physics2D.Raycast(edgeCheck.position, Vector2.down, edgeRayDistance, groundLayer);
+
+        if (edgeInfo.collider == true)
+        {
+            JumpAttack();
+        }
+        else
+        {
+            Flip();
+        }
+    }
+
     void JumpAttack()
     {
         float direction = facingRight ? 1f : -1f;
         rb.linearVelocity = new Vector2(0, 0);
-
         Vector2 jumpVector = new Vector2(direction * jumpForceX, jumpForceY);
         rb.AddForce(jumpVector * rb.mass, ForceMode2D.Impulse);
     }
@@ -72,6 +87,12 @@ public class BossAI : MonoBehaviour
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+
+        if (edgeCheck != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(edgeCheck.position, edgeCheck.position + Vector3.down * edgeRayDistance);
         }
     }
 }
