@@ -12,7 +12,7 @@ public class RangedEnemyAI : MonoBehaviour
     [Header("Atış Ayarları")]
     public GameObject projectilePrefab; 
     public Transform firePoint;         
-    public float fireRate = 1.5f;       
+    public float fireRate = 3.5f;       
     private float nextFireTime;
 
     [Header("Sensörler")]
@@ -21,6 +21,7 @@ public class RangedEnemyAI : MonoBehaviour
     public LayerMask groundLayer;
 
     private Rigidbody2D rb;
+    private Collider2D enemyCollider; 
     private bool movingRight = true;
     private float leftBoundary;
     private float rightBoundary;
@@ -28,6 +29,7 @@ public class RangedEnemyAI : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        enemyCollider = GetComponent<Collider2D>(); 
         CalculatePatrolArea();
         nextFireTime = Time.time + fireRate;
     }
@@ -70,8 +72,16 @@ public class RangedEnemyAI : MonoBehaviour
             if (bulletRb != null)
             {
                 float bulletSpeed = 7f;
-                // Fix: transform.right kullanarak düşmanın baktığı yönü (Scale ile birlikte) baz alıyoruz
-                bulletRb.linearVelocity = transform.right * bulletSpeed;
+                // Yönü direkt düşmanın hareket yönünden (movingRight) alıyoruz
+                float facingDirection = movingRight ? 1f : -1f; 
+                bulletRb.linearVelocity = new Vector2(facingDirection * bulletSpeed, 0);
+            }
+
+            // FİZİK ÇAKIŞMASI ÇÖZÜMÜ: Mermi ve Düşman birbirini görmezden gelsin
+            Collider2D bulletCollider = bullet.GetComponent<Collider2D>();
+            if (bulletCollider != null && enemyCollider != null)
+            {
+                Physics2D.IgnoreCollision(bulletCollider, enemyCollider);
             }
 
             Destroy(bullet, 3f); 
