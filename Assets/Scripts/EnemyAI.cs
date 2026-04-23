@@ -11,12 +11,18 @@ public class EnemyAI : MonoBehaviour
 
     public State currentState = State.Patrol;
 
+    [Header("Can Ayarları")]
+    public int health = 1;
+
+    [Header("Hareket Ayarları")]
     public float moveSpeed = 2f;
     public float chaseSpeed = 3.5f;
+    public float patrolRadius = 5f;
+
+    [Header("Sensörler")]
     public Transform edgeCheck;
     public float rayDistance = 2f;
     public float visionRange = 5f;
-    public float patrolRadius = 5f;
     public LayerMask groundLayer;
     public LayerMask playerLayer;
 
@@ -45,8 +51,10 @@ public class EnemyAI : MonoBehaviour
         if (currentState == State.Dead)
         {
             rb.linearVelocity = Vector2.zero;
+            return;
         }
-        else if (currentState == State.Patrol)
+
+        if (currentState == State.Patrol)
         {
             CheckForPlayer();
         }
@@ -58,6 +66,8 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (currentState == State.Dead) return;
+
         if (currentState == State.Patrol)
         {
             PatrolLogic();
@@ -140,15 +150,30 @@ public class EnemyAI : MonoBehaviour
             
             if (contact.normal.y < -0.5f)
             {
-                currentState = State.Dead;
-                transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
-                GetComponent<Collider2D>().enabled = false;
+                TakeDamage(1); 
             }
             else
             {
                 Debug.Log("Player Took Damage!");
             }
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        
+        if (health <= 0 && currentState != State.Dead)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        currentState = State.Dead;
+        transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+        GetComponent<Collider2D>().enabled = false;
     }
 
     private void OnDrawGizmos()
