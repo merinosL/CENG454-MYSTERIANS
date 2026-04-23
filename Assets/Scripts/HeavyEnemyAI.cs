@@ -1,19 +1,13 @@
 using UnityEngine;
 
-public class RangedEnemyAI : MonoBehaviour
+public class HeavyEnemyAI : MonoBehaviour
 {
     [Header("Can Ayarları")]
-    public int health = 2;
+    public int health = 3;
 
     [Header("Hareket Ayarları")]
-    public float moveSpeed = 1.5f;
+    public float moveSpeed = 1.0f; // Diğer düşmanlardan (2f) daha yavaş
     public float patrolRadius = 4f;
-
-    [Header("Atış Ayarları")]
-    public GameObject projectilePrefab; 
-    public Transform firePoint;         
-    public float fireRate = 1.5f;       
-    private float nextFireTime;
 
     [Header("Sensörler")]
     public Transform edgeCheck;
@@ -29,16 +23,6 @@ public class RangedEnemyAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         CalculatePatrolArea();
-        nextFireTime = Time.time + fireRate;
-    }
-
-    void Update()
-    {
-        if (Time.time >= nextFireTime)
-        {
-            Shoot();
-            nextFireTime = Time.time + fireRate;
-        }
     }
 
     void FixedUpdate()
@@ -57,24 +41,6 @@ public class RangedEnemyAI : MonoBehaviour
             (!movingRight && transform.position.x <= leftBoundary))
         {
             Flip();
-        }
-    }
-
-    void Shoot()
-    {
-        if (projectilePrefab != null && firePoint != null)
-        {
-            GameObject bullet = Instantiate(projectilePrefab, firePoint.position, transform.rotation);
-            
-            Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
-            if (bulletRb != null)
-            {
-                float bulletSpeed = 7f;
-                // Fix: transform.right kullanarak düşmanın baktığı yönü (Scale ile birlikte) baz alıyoruz
-                bulletRb.linearVelocity = transform.right * bulletSpeed;
-            }
-
-            Destroy(bullet, 3f); 
         }
     }
 
@@ -97,6 +63,8 @@ public class RangedEnemyAI : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             ContactPoint2D contact = collision.GetContact(0);
+            
+            // Eğer oyuncu kafaya zıplarsa
             if (contact.normal.y < -0.5f)
             {
                 TakeDamage(1); 
@@ -107,8 +75,14 @@ public class RangedEnemyAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0)
+        
+        if (health > 0)
         {
+            Debug.Log("Ağır Düşman Hasar Aldı! Kalan Can: " + health);
+        }
+        else
+        {
+            Debug.Log("Ağır Düşman Yok Edildi!");
             Destroy(gameObject);
         }
     }
