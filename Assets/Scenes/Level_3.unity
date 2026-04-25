@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3aa22fec68b41bf977773b3ea28198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAI
-  health: 1
+  health: 5
   damageToPlayer: 2
   isAwake: 0
   projectilePrefab: {fileID: 8843535836301172509, guid: 049defcb4e6b74878b3519ff4e9fc0bf, type: 3}
