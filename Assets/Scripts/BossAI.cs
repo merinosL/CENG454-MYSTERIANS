@@ -10,7 +10,7 @@ public class BossAI : MonoBehaviour
     [Header("Shooting Settings (Final Phase Only)")]
     public GameObject projectilePrefab;
     public Transform firePoint;
-    public float fireRate = 2f;
+    public float fireRate = 1.2f;
     private float nextFireTime;
 
     [Header("Sensors")]
@@ -105,9 +105,9 @@ public class BossAI : MonoBehaviour
         }
         else if (health == 1)
         {
-            currentJumpX = 15f;
-            currentJumpY = 16f;
-            currentJumpDelay = 1.5f;
+            currentJumpX = 16f;
+            currentJumpY = 17f;
+            currentJumpDelay = 1.3f;
             spriteRenderer.color = Color.red;
         }
     }
@@ -152,26 +152,29 @@ public class BossAI : MonoBehaviour
     {
         if (projectilePrefab != null && firePoint != null)
         {
-            FireBullet(1f);
-            FireBullet(-1f);
+            FireBullet(Vector2.right);
+            FireBullet(Vector2.left);
+            FireBullet(new Vector2(1f, 1f).normalized);
+            FireBullet(new Vector2(-1f, 1f).normalized);
         }
     }
 
-    void FireBullet(float directionX)
+    void FireBullet(Vector2 direction)
     {
         GameObject bullet = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
         
         if (bulletRb != null)
         {
-            bulletRb.linearVelocity = new Vector2(directionX * 8f, 0);
+            float projectileSpeed = 10f;
+            bulletRb.linearVelocity = direction * projectileSpeed;
         }
 
         Collider2D bulletCol = bullet.GetComponent<Collider2D>();
         Collider2D bossCol = GetComponent<Collider2D>();
         if (bulletCol != null && bossCol != null) Physics2D.IgnoreCollision(bulletCol, bossCol);
 
-        Destroy(bullet, 3f);
+        Destroy(bullet, 2.5f);
     }
 
     void Flip()
@@ -187,14 +190,9 @@ public class BossAI : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             ContactPoint2D contact = collision.GetContact(0);
-            
             if (contact.normal.y < -0.5f)
             {
                 TakeDamage(1);
-            }
-            else
-            {
-                Debug.Log("Boss dealt " + damageToPlayer + " damage to Player!");
             }
         }
     }
@@ -202,15 +200,12 @@ public class BossAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        
         if (health > 0)
         {
             UpdatePhaseStats();
-            Debug.Log("Boss took damage! Remaining Health: " + health);
         }
         else
         {
-            Debug.Log("BOSS DEFEATED!");
             Destroy(gameObject);
         }
     }
