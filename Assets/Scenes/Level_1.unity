@@ -174,8 +174,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4717317073061463824, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 304697098}
   m_SourcePrefab: {fileID: 100100000, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
+--- !u!1 &304697097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4717317073061463824, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
+  m_PrefabInstance: {fileID: 304697096}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &304697098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304697097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2720a51de16324857b94ff323655c5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 1
 --- !u!1 &461895381
 GameObject:
   m_ObjectHideFlags: 0

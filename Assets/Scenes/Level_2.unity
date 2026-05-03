@@ -380,8 +380,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4717317073061463824, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2144034112}
   m_SourcePrefab: {fileID: 100100000, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
+--- !u!1 &2144034111 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4717317073061463824, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
+  m_PrefabInstance: {fileID: 2144034110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2144034112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144034111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2720a51de16324857b94ff323655c5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 1
 --- !u!1001 &7109798288331751890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -437,8 +458,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1513230936854393937, guid: 0dc61c0b91bcf4a14aa668883e243ac5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7109798288331751892}
   m_SourcePrefab: {fileID: 100100000, guid: 0dc61c0b91bcf4a14aa668883e243ac5, type: 3}
+--- !u!1 &7109798288331751891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1513230936854393937, guid: 0dc61c0b91bcf4a14aa668883e243ac5, type: 3}
+  m_PrefabInstance: {fileID: 7109798288331751890}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7109798288331751892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7109798288331751891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2720a51de16324857b94ff323655c5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
