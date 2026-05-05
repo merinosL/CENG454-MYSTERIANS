@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [Header("Health Settings")]
-    [Tooltip("Normal Düşman: 1, Ranged: 3, Boss: 5")]
+    [Tooltip("Enemy: 1, Ranged: 3, Boss: 5")]
     [SerializeField] private int maxHealth = 1; 
     private int currentHealth;
 

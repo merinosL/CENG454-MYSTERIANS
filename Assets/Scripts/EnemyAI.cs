@@ -140,25 +140,23 @@ public class EnemyAI : MonoBehaviour
         transform.localScale = scaler;
     }
 
+    // --- DEĞİŞTİRİLEN KISIM BURASI ---
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (currentState == State.Dead) return;
 
+        // Artık kafaya zıplama kontrolü yok.
+        // Player'ın gövdesi düşmana fiziksel olarak değerse sadece Player hasar alır.
         if (collision.gameObject.CompareTag("Player"))
         {
-            ContactPoint2D contact = collision.GetContact(0);
+            Debug.Log("Player Took Damage! (Gövde Teması)");
             
-            if (contact.normal.y < -0.5f)
-            {
-                TakeDamage(1); 
-            }
-            else
-            {
-                Debug.Log("Player Took Damage!");
-            }
+            // İleride buraya player'ın canını düşürecek fonksiyonu ekleyebilirsiniz:
+            // collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(1);
         }
     }
 
+    // Kılıç (Trigger Hitbox) çarptığında dışarıdan bu fonksiyon çağrılacak.
     public void TakeDamage(int damage)
     {
         health -= damage;
