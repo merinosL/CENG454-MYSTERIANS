@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private Coroutine _superCoroutine;
     private Coroutine _fireCoroutine;
     private Coroutine _invisibleCoroutine;
+    public bool isGrounded;
 
     void Start()
     {
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
         {
             Shoot();
         }
+        
     }
 
     void FixedUpdate()
@@ -156,4 +158,5 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = _isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
+    
 }

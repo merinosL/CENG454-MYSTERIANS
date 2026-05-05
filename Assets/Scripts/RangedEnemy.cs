@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RangedEnemyAI : MonoBehaviour
@@ -25,6 +26,8 @@ public class RangedEnemyAI : MonoBehaviour
     private bool movingRight = true;
     private float leftBoundary;
     private float rightBoundary;
+
+    public static event Action<int> OnPlayerContact;
 
     void Start()
     {
@@ -72,12 +75,10 @@ public class RangedEnemyAI : MonoBehaviour
             if (bulletRb != null)
             {
                 float bulletSpeed = 7f;
-                // Yönü direkt düşmanın hareket yönünden (movingRight) alıyoruz
                 float facingDirection = movingRight ? 1f : -1f; 
                 bulletRb.linearVelocity = new Vector2(facingDirection * bulletSpeed, 0);
             }
 
-            // FİZİK ÇAKIŞMASI ÇÖZÜMÜ: Mermi ve Düşman birbirini görmezden gelsin
             Collider2D bulletCollider = bullet.GetComponent<Collider2D>();
             if (bulletCollider != null && enemyCollider != null)
             {
@@ -106,10 +107,14 @@ public class RangedEnemyAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            ContactPoint2D contact = collision.GetContact(0);
-            if (contact.normal.y < -0.5f)
+            OnPlayerContact?.Invoke(1);
+
+            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
             {
-                TakeDamage(1); 
+                float pushDirectionX = (collision.transform.position.x > transform.position.x) ? 1f : -1f;
+                Vector2 knockback = new Vector2(pushDirectionX * 10f, 5f);
+                playerRb.linearVelocity = knockback;
             }
         }
     }
