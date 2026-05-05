@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -32,6 +33,8 @@ public class EnemyAI : MonoBehaviour
 
     private float leftBoundary;
     private float rightBoundary;
+
+    public static event Action<int> OnPlayerContact;
 
     void Start()
     {
@@ -140,23 +143,24 @@ public class EnemyAI : MonoBehaviour
         transform.localScale = scaler;
     }
 
-    // --- DEĞİŞTİRİLEN KISIM BURASI ---
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (currentState == State.Dead) return;
 
-        // Artık kafaya zıplama kontrolü yok.
-        // Player'ın gövdesi düşmana fiziksel olarak değerse sadece Player hasar alır.
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player Took Damage! (Gövde Teması)");
-            
-            // İleride buraya player'ın canını düşürecek fonksiyonu ekleyebilirsiniz:
-            // collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(1);
+            OnPlayerContact?.Invoke(1);
+
+            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
+            {
+                float pushDirectionX = (collision.transform.position.x > transform.position.x) ? 1f : -1f;
+                Vector2 knockback = new Vector2(pushDirectionX * 10f, 5f);
+                playerRb.linearVelocity = knockback;
+            }
         }
     }
 
-    // Kılıç (Trigger Hitbox) çarptığında dışarıdan bu fonksiyon çağrılacak.
     public void TakeDamage(int damage)
     {
         health -= damage;
