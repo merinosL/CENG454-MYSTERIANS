@@ -8,8 +8,7 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Damage Settings")]
     public Transform attackPoint;
-    public float attackRange = 1f;
-    public LayerMask enemyLayers;
+    public float attackRange = 2f;
     public int attackDamage = 1;
 
     private Animator _animator;
@@ -40,6 +39,8 @@ public class PlayerAttack : MonoBehaviour
 
         _animator.SetTrigger("attack");
 
+        yield return new WaitForSeconds(0.1f);
+
         DoDamage();
 
         yield return new WaitForSeconds(attackCooldown);
@@ -51,12 +52,15 @@ public class PlayerAttack : MonoBehaviour
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
             attackPoint.position,
-            attackRange,
-            enemyLayers
+            attackRange
         );
+
+        Debug.Log("Bulunan Enemy: " + hitEnemies.Length);
 
         foreach (Collider2D enemy in hitEnemies)
         {
+            Debug.Log("Vurulan: " + enemy.name);
+
             EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
 
             if (enemyAI != null)

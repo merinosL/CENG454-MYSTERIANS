@@ -134,7 +134,7 @@ Animator:
   m_GameObject: {fileID: 28426158}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4e9b8ce82a4db2f4087942a3ccda0427, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -260,6 +260,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &699967758 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7249864959476181825, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+  m_PrefabInstance: {fileID: 6426835177559207888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &806739770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -286,11 +291,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1980599197350471530, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.0568988
+      value: 3.061
       objectReference: {fileID: 0}
     - target: {fileID: 1980599197350471530, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6846149
+      value: 0.699
       objectReference: {fileID: 0}
     - target: {fileID: 1980599197350471530, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1018,6 +1023,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3675308185473900738, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.2534182
+      objectReference: {fileID: 0}
+    - target: {fileID: 3675308185473900738, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.011538625
+      objectReference: {fileID: 0}
     - target: {fileID: 5519883730899681133, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.343
@@ -1062,6 +1075,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7249864959476181825, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.281
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562651912883360568, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+      propertyPath: attackPoint
+      value: 
+      objectReference: {fileID: 699967758}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
