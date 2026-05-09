@@ -28,6 +28,7 @@ public class BossAI : MonoBehaviour
     private Rigidbody2D rb;
     private Transform player;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
     private float jumpTimer;
     private bool isGrounded;
     private bool facingRight = true;
@@ -38,6 +39,7 @@ public class BossAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         
         leftBoundary = transform.position.x - patrolRadius;
         rightBoundary = transform.position.x + patrolRadius;
@@ -52,6 +54,7 @@ public class BossAI : MonoBehaviour
     void Update()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        animator.SetBool("isJumping", !isGrounded);
 
         if (isGrounded && Mathf.Abs(rb.linearVelocity.y) < 0.01f)
         {
@@ -59,6 +62,7 @@ public class BossAI : MonoBehaviour
             
             if (jumpTimer <= 0f)
             {
+                animator.SetBool("isRunning", true);
                 if (isAwake && health <= 3) 
                 {
                     LookAtPlayer();
@@ -75,6 +79,7 @@ public class BossAI : MonoBehaviour
 
         if (isAwake && health == 1 && Time.time >= nextFireTime)
         {
+            animator.SetTrigger("Attack");
             CrazyShoot();
             nextFireTime = Time.time + fireRate;
         }
@@ -143,6 +148,7 @@ public class BossAI : MonoBehaviour
     void JumpAttack()
     {
         float direction = facingRight ? 1f : -1f;
+        animator.SetTrigger("Attack");
         rb.linearVelocity = Vector2.zero;
         Vector2 jumpVector = new Vector2(direction * currentJumpX, currentJumpY);
         rb.AddForce(jumpVector * rb.mass, ForceMode2D.Impulse);

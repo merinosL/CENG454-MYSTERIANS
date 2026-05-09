@@ -26,7 +26,8 @@ public class EnemyAI : MonoBehaviour
     public float visionRange = 5f;
     public LayerMask groundLayer;
     public LayerMask playerLayer;
-
+    
+    private Animator animator;
     private Rigidbody2D rb;
     private bool movingRight = true;
     public Transform player;
@@ -38,6 +39,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         
         if (player == null)
@@ -83,6 +85,7 @@ public class EnemyAI : MonoBehaviour
 
     void PatrolLogic()
     {
+        animator.SetBool("isMoving", true);
         rb.linearVelocity = new Vector2((movingRight ? moveSpeed : -moveSpeed), rb.linearVelocity.y);
 
         RaycastHit2D groundInfo = Physics2D.Raycast(edgeCheck.position, Vector2.down, rayDistance, groundLayer);
@@ -97,6 +100,7 @@ public class EnemyAI : MonoBehaviour
 
     void ChaseLogic()
     {
+        animator.SetBool("isMoving", true);
         if (player == null) return;
 
         float direction = Mathf.Sign(player.position.x - transform.position.x);
@@ -119,6 +123,7 @@ public class EnemyAI : MonoBehaviour
 
     void CheckIfPlayerLost()
     {
+        animator.SetBool("isMoving", false);
         if (player == null) return;
 
         float distance = Vector2.Distance(transform.position, player.position);
@@ -163,16 +168,20 @@ public class EnemyAI : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        animator.SetTrigger("GetHit");
         health -= damage;
         
         if (health <= 0 && currentState != State.Dead)
         {
             Die();
         }
+        Debug.Log("HIT!");
+        animator.SetTrigger("GetHit");
     }
 
     void Die()
     {
+        animator.SetTrigger("Death");
         currentState = State.Dead;
         transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
         GetComponent<Collider2D>().enabled = false;

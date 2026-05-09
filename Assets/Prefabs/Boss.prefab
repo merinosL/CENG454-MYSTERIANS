@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 2945297346081026632}
   - component: {fileID: 1989565442343277511}
   - component: {fileID: 6820793957897332568}
+  - component: {fileID: 5919474625390575869}
   - component: {fileID: 803091788900090034}
   m_Layer: 0
   m_Name: Boss
@@ -151,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5542298950764010499}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000848751, y: 0.9996244, z: -0.009916386, w: 0.02553683}
+  m_LocalRotation: {x: 0.00084672915, y: 0.99962443, z: -0.009912346, w: 0.025536025}
   m_LocalPosition: {x: 43.74, y: -0.09, z: 2.2}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
@@ -210,8 +211,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.2941177, g: 0, b: 0.509804, a: 1}
+  m_Sprite: {fileID: 4723107735738678597, guid: 3ec437d23f182234d930c026e4bb2947, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -254,17 +255,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0141815245, y: 0.026308373}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.35, y: 0.55}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.46930057, y: 0.5911802}
   m_EdgeRadius: 0
 --- !u!50 &6820793957897332568
 Rigidbody2D:
@@ -293,6 +294,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &5919474625390575869
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5542298950764010499}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 157f0a004c44d3b4a89260729d7c82db, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &803091788900090034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,20 +328,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3aa22fec68b41bf977773b3ea28198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAI
-  isAwake: 0
-  patrolRadius: 8.12
-  patrolJumpForceX: 7.05
-  patrolJumpForceY: 10.08
-  patrolJumpDelay: 3.64
-  jumpForceX: 20
-  jumpForceY: 20
-  jumpDelay: 3
   health: 3
-  phase2Color: {r: 1, g: 0, b: 0, a: 1}
+  damageToPlayer: 2
+  isAwake: 0
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  fireRate: 1.2
   groundCheck: {fileID: 2045729150621665596}
   edgeCheck: {fileID: 3134038969211929900}
   groundCheckRadius: 0.5
   edgeRayDistance: 2
+  patrolRadius: 8.12
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
