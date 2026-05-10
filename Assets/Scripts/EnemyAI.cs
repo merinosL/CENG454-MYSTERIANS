@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -11,20 +12,34 @@ public class EnemyAI : MonoBehaviour
 
     public State currentState = State.Patrol;
 
+    [Header("Can Ayarları")]
+    public int health = 1;
+
+    [Header("Hareket Ayarları")]
     public float moveSpeed = 2f;
     public float chaseSpeed = 3.5f;
+    public float patrolRadius = 5f;
+
+    [Header("Sensörler")]
     public Transform edgeCheck;
     public float rayDistance = 2f;
     public float visionRange = 5f;
     public LayerMask groundLayer;
     public LayerMask playerLayer;
-
+    
+    private Animator animator;
     private Rigidbody2D rb;
     private bool movingRight = true;
     public Transform player;
 
+    private float leftBoundary;
+    private float rightBoundary;
+
+    public static event Action<int> OnPlayerContact;
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         
         if (player == null)
@@ -32,6 +47,8 @@ public class EnemyAI : MonoBehaviour
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p != null) player = p.transform;
         }
+
+        CalculateNewPatrolArea();
     }
 
     void Update()
@@ -39,8 +56,10 @@ public class EnemyAI : MonoBehaviour
         if (currentState == State.Dead)
         {
             rb.linearVelocity = Vector2.zero;
+            return;
         }
-        else if (currentState == State.Patrol)
+
+        if (currentState == State.Patrol)
         {
             CheckForPlayer();
         }
@@ -52,6 +71,8 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (currentState == State.Dead) return;
+
         if (currentState == State.Patrol)
         {
             PatrolLogic();
@@ -64,11 +85,14 @@ public class EnemyAI : MonoBehaviour
 
     void PatrolLogic()
     {
+        animator.SetBool("isMoving", true);
         rb.linearVelocity = new Vector2((movingRight ? moveSpeed : -moveSpeed), rb.linearVelocity.y);
 
         RaycastHit2D groundInfo = Physics2D.Raycast(edgeCheck.position, Vector2.down, rayDistance, groundLayer);
 
-        if (groundInfo.collider == false)
+        if (groundInfo.collider == false || 
+            (movingRight && transform.position.x >= rightBoundary) || 
+            (!movingRight && transform.position.x <= leftBoundary))
         {
             Flip();
         }
@@ -76,6 +100,7 @@ public class EnemyAI : MonoBehaviour
 
     void ChaseLogic()
     {
+        animator.SetBool("isMoving", true);
         if (player == null) return;
 
         float direction = Mathf.Sign(player.position.x - transform.position.x);
@@ -98,13 +123,21 @@ public class EnemyAI : MonoBehaviour
 
     void CheckIfPlayerLost()
     {
+        animator.SetBool("isMoving", false);
         if (player == null) return;
 
         float distance = Vector2.Distance(transform.position, player.position);
         if (distance > visionRange + 2f)
         {
             currentState = State.Patrol;
+            CalculateNewPatrolArea();
         }
+    }
+
+    void CalculateNewPatrolArea()
+    {
+        leftBoundary = transform.position.x - patrolRadius;
+        rightBoundary = transform.position.x + patrolRadius;
     }
 
     void Flip()
@@ -121,19 +154,37 @@ public class EnemyAI : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            ContactPoint2D contact = collision.GetContact(0);
-            
-            if (contact.normal.y < -0.5f)
+            OnPlayerContact?.Invoke(1);
+
+            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
             {
-                currentState = State.Dead;
-                transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
-                GetComponent<Collider2D>().enabled = false;
-            }
-            else
-            {
-                Debug.Log("Player Took Damage!");
+                float pushDirectionX = (collision.transform.position.x > transform.position.x) ? 1f : -1f;
+                Vector2 knockback = new Vector2(pushDirectionX * 10f, 5f);
+                playerRb.linearVelocity = knockback;
             }
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        animator.SetTrigger("GetHit");
+        health -= damage;
+        
+        if (health <= 0 && currentState != State.Dead)
+        {
+            Die();
+        }
+        Debug.Log("HIT!");
+        animator.SetTrigger("GetHit");
+    }
+
+    void Die()
+    {
+        animator.SetTrigger("Death");
+        currentState = State.Dead;
+        transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+        GetComponent<Collider2D>().enabled = false;
     }
 
     private void OnDrawGizmos()
@@ -147,5 +198,12 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Vector2 visionDirection = movingRight ? Vector2.right : Vector2.left;
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + visionDirection * visionRange);
+
+        float drawLeft = Application.isPlaying ? leftBoundary : transform.position.x - patrolRadius;
+        float drawRight = Application.isPlaying ? rightBoundary : transform.position.x + patrolRadius;
+        
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(new Vector2(drawLeft, transform.position.y - 1), new Vector2(drawLeft, transform.position.y + 1));
+        Gizmos.DrawLine(new Vector2(drawRight, transform.position.y - 1), new Vector2(drawRight, transform.position.y + 1));
     }
 }
