@@ -9,7 +9,7 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Hitbox Settings")]
     public Transform attackPoint;
-    public float attackRange = 1f;
+    public float attackRange = 2f;
     public LayerMask attackableLayers;
     public LayerMask enemyLayers;
 
