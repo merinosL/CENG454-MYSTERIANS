@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class ItemCollector : MonoBehaviour
+public class Medicine : MonoBehaviour
 {
-    
+   
     private void OnCollisionEnter2D(Collision2D collision)
     {
+       
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Object successfully collected!");
+            Debug.Log("İlaç toplandı!");
+            
+        
             Destroy(gameObject); 
         }
     }

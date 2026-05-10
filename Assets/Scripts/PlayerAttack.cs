@@ -5,11 +5,15 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
     public float attackCooldown = 0.5f;
+    public float hitDelay = 0.5f;
 
-    [Header("Damage Settings")]
+    [Header("Hitbox Settings")]
     public Transform attackPoint;
     public float attackRange = 1f;
+    public LayerMask attackableLayers;
     public LayerMask enemyLayers;
+
+    [Header("Damage Settings")]
     public int attackDamage = 1;
 
     private Animator _animator;
@@ -40,15 +44,20 @@ public class PlayerAttack : MonoBehaviour
 
         _animator.SetTrigger("attack");
 
-        DoDamage();
+        yield return new WaitForSeconds(hitDelay);
 
-        yield return new WaitForSeconds(attackCooldown);
+        DoDamage();
+        BreakDestructibles();
+
+        yield return new WaitForSeconds(attackCooldown - hitDelay);
 
         _canAttack = true;
     }
 
     void DoDamage()
     {
+        if (attackPoint == null) return;
+
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
             attackPoint.position,
             attackRange,
@@ -69,6 +78,26 @@ public class PlayerAttack : MonoBehaviour
             if (bossAI != null)
             {
                 bossAI.TakeDamage(attackDamage);
+            }
+        }
+    }
+
+    void BreakDestructibles()
+    {
+        if (attackPoint == null) return;
+
+        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(
+            attackPoint.position,
+            attackRange,
+            attackableLayers
+        );
+
+        foreach (Collider2D obj in hitObjects)
+        {
+            IDestructible destructible = obj.GetComponent<IDestructible>();
+            if (destructible != null)
+            {
+                destructible.Break();
             }
         }
     }
