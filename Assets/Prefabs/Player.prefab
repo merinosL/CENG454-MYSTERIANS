@@ -94,7 +94,7 @@ Transform:
   m_GameObject: {fileID: 7166563066519419756}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.343, y: 0.681, z: 0}
+  m_LocalPosition: {x: 34.4, y: -9.975, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -186,7 +186,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &3675308185473900738
 BoxCollider2D:
@@ -222,17 +222,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0027357936, y: 0.007096514}
+  m_Offset: {x: 0.028570175, y: -0.055515766}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.22, y: 0.38}
+    oldSize: {x: 0.6875, y: 1.1875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.22486937, y: 0.39123622}
+  m_Size: {x: 0.42835617, y: 1.0330114}
   m_EdgeRadius: 0
 --- !u!95 &9164577268001159753
 Animator:
@@ -275,10 +275,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  isSuper: 0
-  isFire: 0
-  isInvisible: 0
-  projectilePrefab: {fileID: 0}
   isGrounded: 0
 --- !u!114 &6739295117099579064
 MonoBehaviour:
@@ -308,8 +304,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   attackCooldown: 0.5
+  hitDelay: 0.5
   attackPoint: {fileID: 0}
   attackRange: 1
+  attackableLayers:
+    serializedVersion: 2
+    m_Bits: 0
   enemyLayers:
     serializedVersion: 2
     m_Bits: 0
