@@ -195,10 +195,11 @@ public class BossAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            ContactPoint2D contact = collision.GetContact(0);
-            if (contact.normal.y < -0.5f)
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
             {
-                TakeDamage(1);
+                playerHealth.TakeDamage(2);
             }
         }
     }

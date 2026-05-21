@@ -35,6 +35,8 @@ public class EnemyAI : MonoBehaviour
     private float rightBoundary;
 
     public static event Action<int> OnPlayerContact;
+    
+    
 
     void Start()
     {
@@ -181,7 +183,12 @@ public class EnemyAI : MonoBehaviour
                 TriggerAttack();
             }
 
-            OnPlayerContact?.Invoke(1);
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(1);
+            }
 
             Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (playerRb != null)
