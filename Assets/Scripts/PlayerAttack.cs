@@ -19,8 +19,6 @@ public class PlayerAttack : MonoBehaviour
     private Animator _animator;
     private bool _canAttack = true;
 
-    private bool facingRight = true;
-
     void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -28,29 +26,23 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        HandleFlip();
 
         if (Input.GetMouseButtonDown(0) && _canAttack)
         {
             StartCoroutine(AttackRoutine());
         }
-
-        UpdateAttackPoint();
     }
 
     IEnumerator AttackRoutine()
     {
         _canAttack = false;
-
         _animator.SetTrigger("attack");
-
         yield return new WaitForSeconds(hitDelay);
-
+        
         DoDamage();
         BreakDestructibles();
 
         yield return new WaitForSeconds(attackCooldown - hitDelay);
-
         _canAttack = true;
     }
 
@@ -59,26 +51,16 @@ public class PlayerAttack : MonoBehaviour
         if (attackPoint == null) return;
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
-            attackPoint.position,
-            attackRange,
-            enemyLayers
+            attackPoint.position, attackRange, enemyLayers
         );
 
         foreach (Collider2D enemy in hitEnemies)
         {
             EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
-
-            if (enemyAI != null)
-            {
-                enemyAI.TakeDamage(attackDamage);
-            }
+            if (enemyAI != null) enemyAI.TakeDamage(attackDamage);
 
             BossAI bossAI = enemy.GetComponent<BossAI>();
-
-            if (bossAI != null)
-            {
-                bossAI.TakeDamage(attackDamage);
-            }
+            if (bossAI != null) bossAI.TakeDamage(attackDamage);
         }
     }
 
@@ -87,59 +69,23 @@ public class PlayerAttack : MonoBehaviour
         if (attackPoint == null) return;
 
         Collider2D[] hitObjects = Physics2D.OverlapCircleAll(
-            attackPoint.position,
-            attackRange,
-            attackableLayers
+            attackPoint.position, attackRange, attackableLayers
         );
 
         foreach (Collider2D obj in hitObjects)
         {
+            
             IDestructible destructible = obj.GetComponent<IDestructible>();
-            if (destructible != null)
-            {
-                destructible.Break();
-            }
+            if (destructible != null) destructible.Break();
+
+            ICollectible collectible = obj.GetComponent<ICollectible>();
+            if (collectible != null) collectible.Collect();
         }
-    }
-
-    void HandleFlip()
-    {
-        float move = Input.GetAxisRaw("Horizontal");
-
-        if (move > 0 && !facingRight)
-        {
-            Flip();
-        }
-        else if (move < 0 && facingRight)
-        {
-            Flip();
-        }
-    }
-
-    void Flip()
-    {
-        facingRight = !facingRight;
-
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
-    }
-
-    void UpdateAttackPoint()
-    {
-        if (attackPoint == null) return;
-
-        Vector3 pos = attackPoint.localPosition;
-
-        pos.x = facingRight ? Mathf.Abs(pos.x) : -Mathf.Abs(pos.x);
-
-        attackPoint.localPosition = pos;
     }
 
     private void OnDrawGizmosSelected()
     {
         if (attackPoint == null) return;
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
