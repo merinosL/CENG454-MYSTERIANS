@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7832072401793560679}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,8 @@ GameObject:
   - component: {fileID: 2803054403032830158}
   - component: {fileID: 6739295117099579064}
   - component: {fileID: 8562651912883360568}
-  m_Layer: 0
+  - component: {fileID: 6780710413568390833}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -94,8 +95,13 @@ Transform:
   m_GameObject: {fileID: 7166563066519419756}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: 34.4, y: -9.975, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+=======
+  m_LocalPosition: {x: -0.343, y: 0.681, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
+>>>>>>> 6066a2390e71f9849325c499aefb6c73368b356e
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7832072401793560679}
@@ -314,3 +320,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   attackDamage: 1
+--- !u!114 &6780710413568390833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7166563066519419756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d956740b5053f4285602e2ce57870c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 3

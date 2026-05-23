@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     public float moveSpeed = 2f;
     public float chaseSpeed = 3.5f;
     public float patrolRadius = 5f;
-    public float stopDistance = 1.0f; 
+    public float stopDistance = 1.0f;
 
     [Header("Attack Settings")]
     public float attackCooldown = 1.5f;
@@ -35,6 +35,8 @@ public class EnemyAI : MonoBehaviour
     private float rightBoundary;
 
     public static event Action<int> OnPlayerContact;
+    
+    
 
     void Start()
     {
@@ -181,7 +183,12 @@ public class EnemyAI : MonoBehaviour
                 TriggerAttack();
             }
 
-            OnPlayerContact?.Invoke(1);
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(1);
+            }
 
             Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (playerRb != null)
