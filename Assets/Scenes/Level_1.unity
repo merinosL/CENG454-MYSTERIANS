@@ -347,6 +347,18 @@ PrefabInstance:
       value: -0.052116394
       objectReference: {fileID: 0}
     - target: {fileID: 5519883730899681133, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519883730899681133, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519883730899681133, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519883730899681133, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 21.818
       objectReference: {fileID: 0}
@@ -393,29 +405,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7166563066519419756, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1922735979}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
---- !u!1 &1922735978 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7166563066519419756, guid: 54501c06e8f1dc24a849e57d225633b1, type: 3}
-  m_PrefabInstance: {fileID: 975554382}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1922735979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922735978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7b95d386d0df4f0f87813705a35a510, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 3
 --- !u!1001 &6324928787024909199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -468,25 +459,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-    - target: {fileID: 9061160360839155780, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
-      propertyPath: stopDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9061160360839155780, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
-      propertyPath: attackCooldown
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9061160360839155780, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
-      propertyPath: attackDuration
-      value: 1.1
-      objectReference: {fileID: 0}
-=======
     - target: {fileID: 8060081319405414516, guid: 5b25c4cf8a2394a16a62f83a30de9099, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 279416526}
->>>>>>> 6066a2390e71f9849325c499aefb6c73368b356e
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
