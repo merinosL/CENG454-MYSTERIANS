@@ -54,7 +54,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (currentState == State.Dead || player == null) return;
+        if (currentState == State.Dead || player == null || !player.gameObject.activeInHierarchy) return;
         if (isAttacking) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
@@ -74,6 +74,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (currentState == State.Dead) return;
 
+        // YENİ GÜVENLİK KİLİDİ: Oyuncu kapandıysa (öldüyse), kovalamayı bırakıp devriyeye dön
+        if (player == null || !player.gameObject.activeInHierarchy)
+        {
+            currentState = State.Patrol;
+        }
+
         if (isAttacking)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
@@ -89,7 +95,7 @@ public class EnemyAI : MonoBehaviour
             ChaseLogic();
         }
     }
-
+    
     void PatrolLogic()
     {
         animator.SetBool("isMoving", true);
@@ -150,6 +156,30 @@ public class EnemyAI : MonoBehaviour
         lastAttackTime = Time.time;    
     }
 
+    public void DealDamageDuringAnimation() 
+    {
+        if (player == null) return;
+        
+        // Eğer oyuncu saldırı menzili içindeyse (örneğin 1.5 birim) hasar ver
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        if (distanceToPlayer <= 1.5f) 
+        {
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(1);
+            }
+            
+            Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
+            {
+                playerRb.linearVelocity = Vector2.zero;
+                float pushDir = (player.position.x > transform.position.x) ? 1f : -1f;
+                playerRb.linearVelocity = new Vector2(pushDir * 8f, 4f); 
+            }
+        }
+    }
+
     public void OnAttackAnimationFinished()
     {
         isAttacking = false;
@@ -187,7 +217,7 @@ public class EnemyAI : MonoBehaviour
 
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(1);
+                //playerHealth.TakeDamage(1);
             }
 
             Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
