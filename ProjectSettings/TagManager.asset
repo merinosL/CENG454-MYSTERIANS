@@ -16,7 +16,11 @@ TagManager:
   - UI
   - Ground
   - Destructible
+<<<<<<< HEAD
   - Attackable
+=======
+  - Enemy
+>>>>>>> main
   - 
   - 
   - 

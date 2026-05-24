@@ -19,6 +19,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (currentHealth <= 0) return;
+
         currentHealth -= damage;
         
         OnHealthChanged?.Invoke(currentHealth);

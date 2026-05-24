@@ -56,11 +56,33 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
+            // Yakın dövüş düşmanı kontrolü
             EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
-            if (enemyAI != null) enemyAI.TakeDamage(attackDamage);
+            if (enemyAI != null)
+            {
+                enemyAI.TakeDamage(attackDamage);
+            }
 
+            // Boss kontrolü
             BossAI bossAI = enemy.GetComponent<BossAI>();
-            if (bossAI != null) bossAI.TakeDamage(attackDamage);
+            if (bossAI != null)
+            {
+                bossAI.TakeDamage(attackDamage);
+            }
+
+            // Menzilli düşman kontrolü
+            RangedEnemyAI rangedAI = enemy.GetComponent<RangedEnemyAI>();
+            if (rangedAI != null)
+            {
+                rangedAI.TakeDamage(attackDamage);
+            }
+
+            // Kapı muhafızı kontrolü
+            GatekeeperAI gatekeeperAI = enemy.GetComponent<GatekeeperAI>();
+            if (gatekeeperAI != null)
+            {
+                gatekeeperAI.TakeDamage(attackDamage);
+            }
         }
     }
 
