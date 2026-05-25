@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class IntroStoryController : MonoBehaviour
@@ -57,6 +58,12 @@ public class IntroStoryController : MonoBehaviour
 
         // END
         storyText.text = "";
+
+        // 2 saniye bekle
+        yield return new WaitForSeconds(2f);
+
+        // Level_1 sahnesine geç
+        SceneManager.LoadScene("Level_1");
 
         // Burada gameplay scene'e geçebilirsin
         // SceneManager.LoadScene("Level1");
