@@ -2,24 +2,23 @@ using UnityEngine;
 
 public class Medicine : MonoBehaviour
 {
-    [Header("Health Settings")]
-    public int healAmount = 1; 
+    public int healAmount = 1;
+    private bool used = false;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if (collision.gameObject.CompareTag("Player"))
+        if (used) return;
+
+        if (collision.CompareTag("Player"))
         {
-            
-            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-            
-           
-            if (playerHealth != null)
+            if (PlayerHealth.Instance != null)
             {
-                playerHealth.Heal(healAmount);
-                Debug.Log("Health has been increased by 1!");
-                
-                Destroy(gameObject); 
+                used = true;
+
+                PlayerHealth.Instance.Heal(healAmount);
+                Debug.Log("HEAL +1");
+
+                Destroy(gameObject);
             }
         }
     }
