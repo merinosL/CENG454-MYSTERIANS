@@ -9,13 +9,19 @@ public class Barrel : MonoBehaviour, IDestructible
     {
         Debug.Log("Kılıç darbesi geldi! Fıçı parçalanıyor...");
         
-       
+
+
         if (medicinePrefab != null)
         {
             
             GameObject medicine = Instantiate(medicinePrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-            
-            
+            var col = medicine.GetComponent<Collider2D>();
+            if (col != null)
+            {
+                col.isTrigger = true;
+            }
+
+
             Rigidbody2D rb = medicine.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
