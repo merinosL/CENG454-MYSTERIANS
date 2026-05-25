@@ -310,7 +310,7 @@ MonoBehaviour:
   attackRange: 1.5
   attackableLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   enemyLayers:
     serializedVersion: 2
     m_Bits: 0
