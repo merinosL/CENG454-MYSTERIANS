@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 2803054403032830158}
   - component: {fileID: 6739295117099579064}
   - component: {fileID: 8562651912883360568}
-  - component: {fileID: 1000855783081504726}
+  - component: {fileID: 7627752440614679848}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -315,7 +315,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   attackDamage: 1
---- !u!114 &1000855783081504726
+--- !u!114 &7627752440614679848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,4 +327,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b95d386d0df4f0f87813705a35a510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 3

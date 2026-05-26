@@ -6,17 +6,34 @@ public class HealthUI : MonoBehaviour
     public PlayerHealth playerHealth;
     public Image[] hearts;
 
-    void Update()
+    void Start()
     {
-        if (playerHealth == null) return;
+        playerHealth = FindFirstObjectByType<PlayerHealth>();
 
-        int hp = playerHealth.CurrentHealth;
-        Debug.Log("HP UI: " + hp);
-
-        for (int i = 0; i < hearts.Length; i++)
+        if (playerHealth == null)
         {
-            hearts[i].enabled = i < hp;
+            Debug.LogError("PlayerHealth bulunamadý!");
+            return;
+        }
+
+        playerHealth.OnHealthChanged += UpdateHearts;
+
+        UpdateHearts(HealthManager.Instance.currentHealth);
+    }
+
+    void OnDestroy()
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.OnHealthChanged -= UpdateHearts;
         }
     }
-    
+
+    void UpdateHearts(int hp)
+    {
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            hearts[i].gameObject.SetActive(i < hp);
+        }
+    }
 }
