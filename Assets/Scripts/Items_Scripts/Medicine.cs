@@ -3,6 +3,7 @@ using UnityEngine;
 public class Medicine : MonoBehaviour
 {
     public int healAmount = 1;
+
     private bool used = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -11,11 +12,14 @@ public class Medicine : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            if (PlayerHealth.Instance != null)
-            {
-                used = true;
+            used = true;
 
-                PlayerHealth.Instance.Heal(healAmount);
+            PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.Heal(healAmount);
+
                 Debug.Log("HEAL +1");
 
                 Destroy(gameObject);
