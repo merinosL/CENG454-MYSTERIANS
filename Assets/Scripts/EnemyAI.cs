@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     public float moveSpeed = 2f;
     public float chaseSpeed = 3.5f;
     public float patrolRadius = 5f;
-    public float stopDistance = 1.0f;
+    public float stopDistance = 1.2f;
 
     [Header("Attack Settings")]
     public float attackCooldown = 1.5f;
@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     public Transform edgeCheck;
     public float rayDistance = 2f;
     public float visionRange = 5f;
+    public float verticalTolerance = 1.5f;
     public LayerMask groundLayer;
     
     private Animator animator;
@@ -35,8 +36,6 @@ public class EnemyAI : MonoBehaviour
     private float rightBoundary;
 
     public static event Action<int> OnPlayerContact;
-    
-    
 
     void Start()
     {
@@ -58,12 +57,16 @@ public class EnemyAI : MonoBehaviour
         if (isAttacking) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        
+        float verticalDifference = Mathf.Abs(player.position.y - transform.position.y);
 
-        if (currentState == State.Patrol && distanceToPlayer <= visionRange)
+        bool canSeePlayer = (distanceToPlayer <= visionRange) && (verticalDifference <= verticalTolerance);
+
+        if (currentState == State.Patrol && canSeePlayer)
         {
             currentState = State.Chase;
         }
-        else if (currentState == State.Chase && distanceToPlayer > (visionRange + 3f))
+        else if (currentState == State.Chase && !canSeePlayer)
         {
             currentState = State.Patrol;
             CalculateNewPatrolArea();
@@ -72,18 +75,15 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (currentState == State.Dead) return;
-
-        // YENİ GÜVENLİK KİLİDİ: Oyuncu kapandıysa (öldüyse), kovalamayı bırakıp devriyeye dön
-        if (player == null || !player.gameObject.activeInHierarchy)
-        {
-            currentState = State.Patrol;
-        }
-
-        if (isAttacking)
+        if (currentState == State.Dead || isAttacking)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             return;
+        }
+
+        if (player == null || !player.gameObject.activeInHierarchy)
+        {
+            currentState = State.Patrol;
         }
 
         if (currentState == State.Patrol)
@@ -141,7 +141,7 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("isMoving", false);
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             
-            if (Time.time >= lastAttackTime + attackCooldown && !isAttacking)
+            if (Time.time >= lastAttackTime + attackCooldown)
             {
                 TriggerAttack();
             }
@@ -150,7 +150,6 @@ public class EnemyAI : MonoBehaviour
 
     void TriggerAttack()
     {
-        Debug.Log("<color=magenta>ENEMY LOG:</color> Attack Started");
         isAttacking = true; 
         animator.SetTrigger("Attack");
         lastAttackTime = Time.time;    
@@ -160,9 +159,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (player == null) return;
         
-        // Eğer oyuncu saldırı menzili içindeyse (örneğin 1.5 birim) hasar ver
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer <= 1.5f) 
+        
+        if (distanceToPlayer <= 2.5f) 
         {
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
@@ -183,7 +182,6 @@ public class EnemyAI : MonoBehaviour
     public void OnAttackAnimationFinished()
     {
         isAttacking = false;
-        Debug.Log("<color=magenta>ENEMY LOG:</color> Attack animation completely finished.");
     }
 
     void CalculateNewPatrolArea()
@@ -200,51 +198,6 @@ public class EnemyAI : MonoBehaviour
         transform.localScale = scaler;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (currentState == State.Dead) return;
-
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (currentState == State.Chase && !isAttacking && Time.time >= lastAttackTime + attackCooldown)
-            {
-                animator.SetBool("isMoving", false);
-                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-                TriggerAttack();
-            }
-
-            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-
-            if (playerHealth != null)
-            {
-                //playerHealth.TakeDamage(1);
-            }
-
-            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
-            if (playerRb != null)
-            {
-                playerRb.linearVelocity = Vector2.zero;
-                float pushDir = (collision.transform.position.x > transform.position.x) ? 1f : -1f;
-                playerRb.linearVelocity = new Vector2(pushDir * 8f, 4f); 
-            }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (currentState == State.Dead) return;
-
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (currentState == State.Chase && !isAttacking && Time.time >= lastAttackTime + attackCooldown)
-            {
-                animator.SetBool("isMoving", false);
-                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-                TriggerAttack();
-            }
-        }
-    }
-
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -256,8 +209,13 @@ public class EnemyAI : MonoBehaviour
     {
         currentState = State.Dead;
         animator.SetTrigger("Death");
+        
         GetComponent<Collider2D>().enabled = false;
+        
         rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic; 
+        
+        Destroy(gameObject, 1f);
     }
 
     private void OnDrawGizmos()
