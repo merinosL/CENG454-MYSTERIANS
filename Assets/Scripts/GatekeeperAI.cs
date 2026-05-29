@@ -11,15 +11,17 @@ public class GatekeeperAI : MonoBehaviour
     public float detectionRange = 8f;
     public float stopDistance = 1.2f;
 
-    public float knockbackForce = 25f; 
-    public float verticalForce = 10f;
-
-    public static event Action OnGatekeeperDeath;
-    public static event Action<int> OnPlayerContact;
+    [Header("Combat Settings")]
+    public int damage = 1;
+    public float attackCooldown = 1.5f; 
+    private float lastAttackTime;
 
     private Transform playerTransform;
     private Rigidbody2D rb;
     private bool isChasing = false;
+
+    public static event Action OnGatekeeperDeath;
+    public static event Action<int> OnPlayerContact;
 
     void Start()
     {
@@ -33,6 +35,7 @@ public class GatekeeperAI : MonoBehaviour
         if (playerTransform == null) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        
         if (distanceToPlayer <= detectionRange) isChasing = true;
 
         if (isChasing) LookAtPlayer();
@@ -43,38 +46,43 @@ public class GatekeeperAI : MonoBehaviour
         if (isChasing && playerTransform != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+            
             if (distanceToPlayer > stopDistance)
             {
                 Vector2 direction = (playerTransform.position - transform.position).normalized;
                 rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
             }
+            else
+            {
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            }
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && Time.time >= lastAttackTime + attackCooldown)
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                Debug.Log("<color=red>GATEKEEPER CONTACT:</color> Pushing player away.");
-                OnPlayerContact?.Invoke(1);
-
-                Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
-                if (playerRb != null)
-                {
-                    // Önce tüm hızları sıfırla (Çok önemli!)
-                    playerRb.linearVelocity = Vector2.zero;
-
-                    float pushDir = (collision.transform.position.x > transform.position.x) ? 1f : -1f;
-                    
-                    // DEĞİŞİKLİK: Yatay gücü artırdık (30), dikey gücü azalttık (4)
-                    // Böylece üstüne çıkmak yerine yerden süpürülerek uzaklaşacak
-                    float finalKnockback = 30f; 
-                    float finalVertical = 4f; 
-
-                    playerRb.linearVelocity = new Vector2(pushDir * finalKnockback, finalVertical);
-                }
-            }
+            Attack(collision.gameObject);
         }
+    }
+
+    void Attack(GameObject playerObj)
+    {
+        lastAttackTime = Time.time;
+        OnPlayerContact?.Invoke(damage);
+
+        PlayerHealth playerHealth = playerObj.GetComponent<PlayerHealth>();
+        if (playerHealth != null) playerHealth.TakeDamage(damage);
+
+        Rigidbody2D playerRb = playerObj.GetComponent<Rigidbody2D>();
+        if (playerRb != null)
+        {
+            playerRb.linearVelocity = Vector2.zero;
+            float pushDir = (playerObj.transform.position.x > transform.position.x) ? 1f : -1f;
+            playerRb.linearVelocity = new Vector2(pushDir * 20f, 5f);
+        }
+    }
 
     void LookAtPlayer()
     {
