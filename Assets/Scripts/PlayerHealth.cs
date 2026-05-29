@@ -5,9 +5,13 @@ public class PlayerHealth : MonoBehaviour
 {
     public event Action<int> OnHealthChanged;
     public event Action OnDeath;
+    public WinLoseManager winLoseManager;
 
     void Start()
     {
+        if (winLoseManager == null)
+            winLoseManager = FindObjectOfType<WinLoseManager>();
+
         OnHealthChanged?.Invoke(HealthManager.Instance.currentHealth);
     }
 
@@ -35,11 +39,16 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("HEAL -> " + HealthManager.Instance.currentHealth);
 
-        OnHealthChanged?.Invoke(HealthManager.Instance.currentHealth); 
+        OnHealthChanged?.Invoke(HealthManager.Instance.currentHealth);
     }
+
     void Die()
     {
         OnDeath?.Invoke();
+        if (winLoseManager != null)
+        {
+            winLoseManager.OpenLosePanel();
+        }
         gameObject.SetActive(false);
     }
 
