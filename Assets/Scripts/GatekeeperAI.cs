@@ -9,7 +9,7 @@ public class GatekeeperAI : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 2.5f;
     public float detectionRange = 8f;
-    public float stopDistance = 1.2f;
+    public float stopDistance = 3.5f;
 
     [Header("Combat Settings")]
     public int damage = 1;
@@ -18,7 +18,9 @@ public class GatekeeperAI : MonoBehaviour
 
     private Transform playerTransform;
     private Rigidbody2D rb;
+    private Animator anim;
     private bool isChasing = false;
+    private bool isDead = false; 
 
     public static event Action OnGatekeeperDeath;
     public static event Action<int> OnPlayerContact;
@@ -26,81 +28,112 @@ public class GatekeeperAI : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) playerTransform = playerObj.transform;
     }
 
     void Update()
     {
-        if (playerTransform == null) return;
+        if (isDead || playerTransform == null) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
         
         if (distanceToPlayer <= detectionRange) isChasing = true;
 
-        if (isChasing) LookAtPlayer();
+        LookAtPlayer();
     }
 
     void FixedUpdate()
     {
+        if (isDead) return;
+
         if (isChasing && playerTransform != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
             
             if (distanceToPlayer > stopDistance)
             {
+                anim.SetBool("isMoving", true);
                 Vector2 direction = (playerTransform.position - transform.position).normalized;
                 rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
             }
             else
             {
+                anim.SetBool("isMoving", false);
                 rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
+                if (Time.time >= lastAttackTime + attackCooldown)
+                {
+                    Attack();
+                }
             }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && Time.time >= lastAttackTime + attackCooldown)
+        } 
+        else if (rb != null)
         {
-            Attack(collision.gameObject);
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
     }
 
-    void Attack(GameObject playerObj)
+    void Attack()
     {
         lastAttackTime = Time.time;
-        OnPlayerContact?.Invoke(damage);
+        anim.SetTrigger("Attack"); 
+    }
 
-        PlayerHealth playerHealth = playerObj.GetComponent<PlayerHealth>();
-        if (playerHealth != null) playerHealth.TakeDamage(damage);
+    public void DealDamageEvent()
+    {
+        if (playerTransform == null || isDead) return;
 
-        Rigidbody2D playerRb = playerObj.GetComponent<Rigidbody2D>();
-        if (playerRb != null)
+        if (Vector2.Distance(transform.position, playerTransform.position) <= stopDistance + 1f)
         {
-            playerRb.linearVelocity = Vector2.zero;
-            float pushDir = (playerObj.transform.position.x > transform.position.x) ? 1f : -1f;
-            playerRb.linearVelocity = new Vector2(pushDir * 20f, 5f);
+            OnPlayerContact?.Invoke(damage);
+
+            PlayerHealth playerHealth = playerTransform.GetComponent<PlayerHealth>();
+            if (playerHealth != null) playerHealth.TakeDamage(damage);
+
+            Rigidbody2D playerRb = playerTransform.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
+            {
+                playerRb.linearVelocity = Vector2.zero;
+                float pushDir = (playerTransform.position.x > transform.position.x) ? 1f : -1f;
+                playerRb.linearVelocity = new Vector2(pushDir * 20f, 5f);
+            }
         }
     }
 
     void LookAtPlayer()
     {
-        if (playerTransform.position.x > transform.position.x && transform.localScale.x < 0) Flip();
-        else if (playerTransform.position.x < transform.position.x && transform.localScale.x > 0) Flip();
+        if (playerTransform.position.x > transform.position.x && transform.localScale.x > 0) Flip();
+        else if (playerTransform.position.x < transform.position.x && transform.localScale.x < 0) Flip();
     }
 
     void Flip() => transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         health -= damage;
+        anim.SetTrigger("GetHit"); 
         if (health <= 0) Die();
     }
 
     void Die()
     {
+        isDead = true;
+        anim.SetTrigger("Death");
         OnGatekeeperDeath?.Invoke();
-        Destroy(gameObject);
+
+        if (rb != null) 
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+        }
+        
+        Collider2D coll = GetComponent<Collider2D>();
+        if (coll != null) coll.enabled = false;
+
+        Destroy(gameObject, 1f); 
     }
 }

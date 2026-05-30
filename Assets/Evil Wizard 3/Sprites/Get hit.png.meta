@@ -1,18 +1,9 @@
 fileFormatVersion: 2
-guid: 64b175f6c9d65b04d97477d8f91f5f88
+guid: d1f60abddafaaf24db43fb4be51adf57
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 4888791041678013154
-    second: Get hit_0
-  - first:
-      213: -5921099428200569508
-    second: Get hit_1
-  - first:
-      213: -2993835340672210068
-    second: Get hit_2
+  internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 13
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -43,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -76,8 +67,21 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -89,7 +93,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -109,20 +113,19 @@ TextureImporter:
       name: Get hit_0
       rect:
         serializedVersion: 2
-        x: 51
-        y: 42
-        width: 37
-        height: 54
+        x: 0
+        y: 0
+        width: 140
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2e2745cec8978d340800000000000000
-      internalID: 4888791041678013154
+      spriteID: e47bcb3e5dca3c54c9dbecaf0405dc85
+      internalID: -231589921
       vertices: []
       indices: 
       edges: []
@@ -131,20 +134,19 @@ TextureImporter:
       name: Get hit_1
       rect:
         serializedVersion: 2
-        x: 192
-        y: 42
-        width: 35
-        height: 54
+        x: 140
+        y: 0
+        width: 140
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c55265ef07704dda0800000000000000
-      internalID: -5921099428200569508
+      spriteID: ecdb8ed54262be1449580da8c179d975
+      internalID: -1421372998
       vertices: []
       indices: 
       edges: []
@@ -153,43 +155,46 @@ TextureImporter:
       name: Get hit_2
       rect:
         serializedVersion: 2
-        x: 334
-        y: 42
-        width: 36
-        height: 55
+        x: 280
+        y: 0
+        width: 140
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c6be833ae92c376d0800000000000000
-      internalID: -2993835340672210068
+      spriteID: 4c881b5aa735a3943833c340ac3880d8
+      internalID: 288562299
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
-    customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      Get hit_0: 4888791041678013154
-      Get hit_1: -5921099428200569508
-      Get hit_2: -2993835340672210068
+      Get hit_0: -231589921
+      Get hit_1: -1421372998
+      Get hit_2: 288562299
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284492
+  packageName: Evil Wizard 3
+  packageVersion: 1.0
+  assetPath: Assets/Evil Wizard 3/Sprites/Get hit.png
+  uploadId: 666277

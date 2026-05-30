@@ -1,21 +1,9 @@
 fileFormatVersion: 2
-guid: 15d67ecd037cc8e4fb7c5e854b7170b9
+guid: 4bd7e27cfe517944aa33b51a2eb1ce0c
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 8383388497487750666
-    second: Moving_0
-  - first:
-      213: -6025730124729799805
-    second: Moving_1
-  - first:
-      213: -4394547580005827180
-    second: Moving_2
-  - first:
-      213: -6528231397746495835
-    second: Moving_3
+  internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 13
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -46,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -79,8 +67,21 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -92,7 +93,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -112,20 +113,19 @@ TextureImporter:
       name: Moving_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 18
-        width: 25
-        height: 13
+        x: 0
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a066adedb67c75470800000000000000
-      internalID: 8383388497487750666
+      spriteID: d716137207df8aa4a9a268013646f073
+      internalID: -943592288
       vertices: []
       indices: 
       edges: []
@@ -134,20 +134,19 @@ TextureImporter:
       name: Moving_1
       rect:
         serializedVersion: 2
-        x: 60
-        y: 18
-        width: 28
-        height: 13
+        x: 50
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 38b2c13906e406ca0800000000000000
-      internalID: -6025730124729799805
+      spriteID: 7c6944527fa136849ba94b024797dca4
+      internalID: -1165984779
       vertices: []
       indices: 
       edges: []
@@ -156,20 +155,19 @@ TextureImporter:
       name: Moving_2
       rect:
         serializedVersion: 2
-        x: 108
-        y: 18
-        width: 30
-        height: 13
+        x: 100
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 49d3331624e6303c0800000000000000
-      internalID: -4394547580005827180
+      spriteID: dd3af102c312d0947b47596b0a393557
+      internalID: 367575262
       vertices: []
       indices: 
       edges: []
@@ -178,44 +176,47 @@ TextureImporter:
       name: Moving_3
       rect:
         serializedVersion: 2
-        x: 156
-        y: 18
-        width: 32
-        height: 13
+        x: 150
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5aea4cdb1201765a0800000000000000
-      internalID: -6528231397746495835
+      spriteID: c3f8e99aaae6f4047924df8fdff345b4
+      internalID: -792785704
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
-    customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      Moving_0: 8383388497487750666
-      Moving_1: -6025730124729799805
-      Moving_2: -4394547580005827180
-      Moving_3: -6528231397746495835
+      Moving_0: -943592288
+      Moving_1: -1165984779
+      Moving_2: 367575262
+      Moving_3: -792785704
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284492
+  packageName: Evil Wizard 3
+  packageVersion: 1.0
+  assetPath: Assets/Evil Wizard 3/Sprites/Projectile/Moving.png
+  uploadId: 666277

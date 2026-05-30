@@ -1,30 +1,9 @@
 fileFormatVersion: 2
-guid: d3b3a952ba1d3b94f96bb3661ebee38b
+guid: 73d1bcfc9eeac7a48a4cffb49a5b635e
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -2887184577470883374
-    second: Explode_0
-  - first:
-      213: 8288982013464879355
-    second: Explode_1
-  - first:
-      213: -4085701817799866075
-    second: Explode_2
-  - first:
-      213: -5964474748036044434
-    second: Explode_3
-  - first:
-      213: 1990628112201042793
-    second: Explode_4
-  - first:
-      213: -3628878560167924253
-    second: Explode_5
-  - first:
-      213: 7567364251426146524
-    second: Explode_6
+  internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 13
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -55,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -88,8 +67,21 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -101,7 +93,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -121,20 +113,19 @@ TextureImporter:
       name: Explode_0
       rect:
         serializedVersion: 2
-        x: 121
-        y: 19
-        width: 12
-        height: 12
+        x: 0
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2d99cda7ce8aee7d0800000000000000
-      internalID: -2887184577470883374
+      spriteID: 28276936fed50054e9a2b67ac3d11bc8
+      internalID: -1623465313
       vertices: []
       indices: 
       edges: []
@@ -143,20 +134,19 @@ TextureImporter:
       name: Explode_1
       rect:
         serializedVersion: 2
-        x: 165
-        y: 12
-        width: 28
-        height: 28
+        x: 50
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bf02d2e6931680370800000000000000
-      internalID: 8288982013464879355
+      spriteID: 045758096182f0145a36f1240545804c
+      internalID: 1575902063
       vertices: []
       indices: 
       edges: []
@@ -165,20 +155,19 @@ TextureImporter:
       name: Explode_2
       rect:
         serializedVersion: 2
-        x: 210
-        y: 7
-        width: 25
-        height: 28
+        x: 100
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5290fdbf7dbac47c0800000000000000
-      internalID: -4085701817799866075
+      spriteID: 0b5e18e33c00c9b41a745cdda7663eba
+      internalID: 889278276
       vertices: []
       indices: 
       edges: []
@@ -187,20 +176,19 @@ TextureImporter:
       name: Explode_3
       rect:
         serializedVersion: 2
-        x: 212
-        y: 31
-        width: 6
-        height: 6
+        x: 150
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e69268b51dde93da0800000000000000
-      internalID: -5964474748036044434
+      spriteID: f296126620a7b2b48b0d84a148280279
+      internalID: -1986159531
       vertices: []
       indices: 
       edges: []
@@ -209,20 +197,19 @@ TextureImporter:
       name: Explode_4
       rect:
         serializedVersion: 2
-        x: 232
-        y: 1
-        width: 108
-        height: 49
+        x: 200
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 96b46a3a8b120ab10800000000000000
-      internalID: 1990628112201042793
+      spriteID: 462daa97e4463f940b2c7828e06a15d2
+      internalID: -559955788
       vertices: []
       indices: 
       edges: []
@@ -231,20 +218,19 @@ TextureImporter:
       name: Explode_5
       rect:
         serializedVersion: 2
-        x: 22
-        y: 19
-        width: 11
-        height: 11
+        x: 250
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3ede8281d22a3adc0800000000000000
-      internalID: -3628878560167924253
+      spriteID: 430c188567fc0bb4da0d1ae1e076925e
+      internalID: 63460821
       vertices: []
       indices: 
       edges: []
@@ -253,47 +239,50 @@ TextureImporter:
       name: Explode_6
       rect:
         serializedVersion: 2
-        x: 74
-        y: 21
-        width: 7
-        height: 8
+        x: 300
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cd8ce3c61bda40960800000000000000
-      internalID: 7567364251426146524
+      spriteID: a123cb230ebe7e948b9aad73fb7878b7
+      internalID: 1971749813
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
-    customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      Explode_0: -2887184577470883374
-      Explode_1: 8288982013464879355
-      Explode_2: -4085701817799866075
-      Explode_3: -5964474748036044434
-      Explode_4: 1990628112201042793
-      Explode_5: -3628878560167924253
-      Explode_6: 7567364251426146524
+      Explode_0: -1623465313
+      Explode_1: 1575902063
+      Explode_2: 889278276
+      Explode_3: -1986159531
+      Explode_4: -559955788
+      Explode_5: 63460821
+      Explode_6: 1971749813
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284492
+  packageName: Evil Wizard 3
+  packageVersion: 1.0
+  assetPath: Assets/Evil Wizard 3/Sprites/Projectile/Explode.png
+  uploadId: 666277

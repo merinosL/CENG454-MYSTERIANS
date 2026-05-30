@@ -12,11 +12,16 @@ public class PlayerHealth : MonoBehaviour
         if (winLoseManager == null)
             winLoseManager = FindObjectOfType<WinLoseManager>();
 
-        OnHealthChanged?.Invoke(HealthManager.Instance.currentHealth);
+        if (HealthManager.Instance != null)
+        {
+            OnHealthChanged?.Invoke(HealthManager.Instance.currentHealth);
+        }
     }
 
     public void TakeDamage(int damage)
     {
+        if (HealthManager.Instance == null) return;
+
         HealthManager.Instance.currentHealth -= damage;
 
         if (HealthManager.Instance.currentHealth < 0)
@@ -32,12 +37,12 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(int amount)
     {
+        if (HealthManager.Instance == null) return;
+
         HealthManager.Instance.currentHealth += amount;
 
         if (HealthManager.Instance.currentHealth > HealthManager.Instance.maxHealth)
             HealthManager.Instance.currentHealth = HealthManager.Instance.maxHealth;
-
-        Debug.Log("HEAL -> " + HealthManager.Instance.currentHealth);
 
         OnHealthChanged?.Invoke(HealthManager.Instance.currentHealth);
     }
@@ -54,6 +59,6 @@ public class PlayerHealth : MonoBehaviour
 
     public int CurrentHealth
     {
-        get { return HealthManager.Instance.currentHealth; }
+        get { return HealthManager.Instance != null ? HealthManager.Instance.currentHealth : 0; }
     }
 }
