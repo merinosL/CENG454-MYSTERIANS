@@ -1,9 +1,10 @@
 using UnityEngine;
-
+using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 8f;
+    private float originalSpeed;
 
     [Header("Jump")]
     public float jumpForce = 14f;
@@ -17,7 +18,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        
         _rb = GetComponent<Rigidbody2D>();
+        originalSpeed = speed;
     }
 
     void Update()
@@ -54,5 +57,14 @@ public class PlayerController : MonoBehaviour
         if (groundCheck == null) return;
         Gizmos.color = isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+    
+    public IEnumerator SpeedBoost(float multiplier, float duration)
+    {
+        speed = originalSpeed * multiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        speed = originalSpeed;
     }
 }
