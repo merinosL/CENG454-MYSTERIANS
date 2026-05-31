@@ -23,6 +23,5 @@ public class OutroWalk : MonoBehaviour
     {
         moveSpeed = 0f;
         animator.SetBool("isRunning", false);
-
     }
 }
