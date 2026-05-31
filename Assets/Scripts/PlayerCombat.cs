@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerCombat : MonoBehaviour
 {
     [Header("Attack Settings")]
     public float attackCooldown = 0.5f;
@@ -26,7 +26,6 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0) && _canAttack)
         {
             StartCoroutine(AttackRoutine());
@@ -38,7 +37,7 @@ public class PlayerAttack : MonoBehaviour
         _canAttack = false;
         _animator.SetTrigger("attack");
         yield return new WaitForSeconds(hitDelay);
-        
+
         DoDamage();
         BreakDestructibles();
 
@@ -50,38 +49,16 @@ public class PlayerAttack : MonoBehaviour
     {
         if (attackPoint == null) return;
 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
-            attackPoint.position, attackRange, enemyLayers
-        );
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        Debug.Log("Vurulan d��man say�s�: " + hitEnemies.Length);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            // Yakın dövüş düşmanı kontrolü
-            EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
-            if (enemyAI != null)
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
             {
-                enemyAI.TakeDamage(attackDamage);
-            }
-
-            // Boss kontrolü
-            BossAI bossAI = enemy.GetComponent<BossAI>();
-            if (bossAI != null)
-            {
-                bossAI.TakeDamage(attackDamage);
-            }
-
-            // Menzilli düşman kontrolü
-            RangedEnemyAI rangedAI = enemy.GetComponent<RangedEnemyAI>();
-            if (rangedAI != null)
-            {
-                rangedAI.TakeDamage(attackDamage);
-            }
-
-            // Kapı muhafızı kontrolü
-            GatekeeperAI gatekeeperAI = enemy.GetComponent<GatekeeperAI>();
-            if (gatekeeperAI != null)
-            {
-                gatekeeperAI.TakeDamage(attackDamage);
+                enemyHealth.TakeDamage(attackDamage);
             }
         }
     }
@@ -90,13 +67,10 @@ public class PlayerAttack : MonoBehaviour
     {
         if (attackPoint == null) return;
 
-        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(
-            attackPoint.position, attackRange, attackableLayers
-        );
+        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, attackableLayers);
 
         foreach (Collider2D obj in hitObjects)
         {
-            
             IDestructible destructible = obj.GetComponent<IDestructible>();
             if (destructible != null) destructible.Break();
 
