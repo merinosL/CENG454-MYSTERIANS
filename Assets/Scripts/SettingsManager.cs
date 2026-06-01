@@ -15,27 +15,40 @@ public class SettingsManager : MonoBehaviour
         if (settingsMenuPanel != null)
             settingsMenuPanel.SetActive(false);
 
-        float musicVol = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        float musicVol = PlayerPrefs.GetFloat("MusicVolume", 0f);
+        float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 0f);
 
         musicSlider.value = musicVol;
         soundSlider.value = sfxVol;
 
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(musicVol) * 20);
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(sfxVol) * 20);
+        audioMixer.SetFloat("MusicVolume", musicVol);
+        audioMixer.SetFloat("SFXVolume", sfxVol);
+
+        soundSlider.onValueChanged.AddListener(SetSFX);
+        musicSlider.onValueChanged.AddListener(SetMusicVolume);
+    }
+
+    public void OpenSettings()
+    {
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+        if (settingsMenuPanel != null) settingsMenuPanel.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        if (settingsMenuPanel != null) settingsMenuPanel.SetActive(false);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
     }
 
     public void SetMusicVolume(float volume)
     {
-        volume = Mathf.Clamp(volume, 0.0001f, 1f);
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("MusicVolume", volume);
         PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
     public void SetSFX(float volume)
     {
-        volume = Mathf.Clamp(volume, 0.0001f, 1f);
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("SFXVolume", volume);
         PlayerPrefs.SetFloat("SFXVolume", volume);
     }
 }

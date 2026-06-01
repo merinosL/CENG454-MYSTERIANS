@@ -19182,12 +19182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundLibrary
   soundEffects:
-  - groupID: SwordSwing
-    clips:
-    - {fileID: 8300000, guid: 992f0fb2975cb5346bc33e1b74d842ba, type: 3}
   - groupID: BarrelBreak
     clips:
     - {fileID: 8300000, guid: b68cf8d7d096e8544ab46c00614fc828, type: 3}
+  - groupID: SwordSwing
+    clips:
+    - {fileID: 8300000, guid: 992f0fb2975cb5346bc33e1b74d842ba, type: 3}
   - groupID: Powerup
     clips:
     - {fileID: 8300000, guid: 81a136b15fa8b734ca3fabe7b66bc850, type: 3}
@@ -19214,6 +19214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   sfxLibrary: {fileID: 792603920}
   sfx2DSource: {fileID: 626384581}
+  sfxGroup: {fileID: -652646860683917254, guid: cd358e12b0d76654f8bcd89d06257744, type: 2}
 --- !u!114 &792603922
 MonoBehaviour:
   m_ObjectHideFlags: 0
