@@ -61,6 +61,6 @@ public class OutroStoryController : MonoBehaviour
         storyText.text = "And so, the forest lived happily ever after.";
         yield return new WaitForSeconds(5f);
 
-        SceneManager.LoadScene("EndScene");
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 175228299}
   - component: {fileID: 175228298}
   - component: {fileID: 175228302}
+  - component: {fileID: 175228303}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -237,6 +238,19 @@ MonoBehaviour:
   storyText: {fileID: 1686194429}
   player: {fileID: 768672258}
   wolf: {fileID: 1817872630}
+--- !u!114 &175228303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175228297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 798f11273978e6e47a58f090cabce376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSkipper
+  targetSceneName: Level_1
 --- !u!1 &763603059
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +507,7 @@ GameObject:
   - component: {fileID: 1686194430}
   - component: {fileID: 1686194429}
   - component: {fileID: 1686194431}
+  - component: {fileID: 1686194432}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -634,6 +649,19 @@ MonoBehaviour:
   storyText: {fileID: 1686194429}
   player: {fileID: 768672258}
   wolf: {fileID: 1817872630}
+--- !u!114 &1686194432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686194427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 798f11273978e6e47a58f090cabce376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSkipper
+  targetSceneName: Level_1
 --- !u!1 &1708887769
 GameObject:
   m_ObjectHideFlags: 0
