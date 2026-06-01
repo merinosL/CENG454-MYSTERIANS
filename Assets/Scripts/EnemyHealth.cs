@@ -6,8 +6,12 @@ public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 1;
     private int currentHealth;
+
+    public float deathDelay = 1.0f; // Boss'un animasyonu için bu süreyi Inspector'dan uzatacağız
+
     public event Action<int> OnHealthChanged;
     public event Action OnDeath;
+
     private Rigidbody2D _rb;
     private Animator _animator;
 
@@ -34,10 +38,21 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
+        BossAI bossAI = GetComponent<BossAI>();
+        if (bossAI != null && !bossAI.isAwake) return;
+
         if (currentHealth <= 0) return;
         currentHealth -= damageAmount;
         OnHealthChanged?.Invoke(currentHealth);
-        if (currentHealth <= 0) Die();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        else if (_animator != null)
+        {
+            _animator.SetTrigger("GetHit");
+        }
     }
 
     private void Die()
@@ -50,13 +65,17 @@ public class EnemyHealth : MonoBehaviour
     {
         gameObject.layer = LayerMask.NameToLayer("Default");
         SetAIEnabled(false);
+
         if (_animator != null)
         {
             _animator.SetTrigger("Death");
             SoundManager.Instance.PlaySound3D("EnemyDeath", transform.position);
         }
+
         if (_rb != null) _rb.linearVelocity = Vector2.zero;
-        yield return new WaitForSeconds(1.0f);
+
+        yield return new WaitForSeconds(deathDelay); // Animasyonun oynanması için beklenen süre
+
         EnemyPooler pooler = FindAnyObjectByType<EnemyPooler>();
         if (pooler != null) pooler.ReturnToPool(gameObject);
         else Destroy(gameObject);
@@ -66,8 +85,10 @@ public class EnemyHealth : MonoBehaviour
     {
         var enemyAI = GetComponent<EnemyAI>();
         if (enemyAI != null) enemyAI.enabled = state;
+
         var rangedAI = GetComponent<RangedEnemyAI>();
         if (rangedAI != null) rangedAI.enabled = state;
+
         var gatekeeperAI = GetComponent<GatekeeperAI>();
         if (gatekeeperAI != null) gatekeeperAI.enabled = state;
     }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class BossAI : MonoBehaviour
 {
-    public int health = 5;
     public bool isAwake = false;
     public GameObject projectilePrefab;
     public Transform firePoint;
@@ -21,12 +20,17 @@ public class BossAI : MonoBehaviour
     private bool facingRight = false;
     public static event Action OnBossDeath;
 
+    private EnemyHealth myHealth;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        myHealth = GetComponent<EnemyHealth>();
+
         GameObject pObj = GameObject.FindGameObjectWithTag("Player");
         if (pObj != null) playerTransform = pObj.transform;
+        
         bulletPool = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
@@ -34,26 +38,29 @@ public class BossAI : MonoBehaviour
             obj.SetActive(false);
             bulletPool.Add(obj);
         }
-    }
 
-    void OnEnable()
-    {
         GameObject gatekeeper = GameObject.Find("Gatekeeper");
         if (gatekeeper != null)
         {
-            var healthComp = gatekeeper.GetComponent<EnemyHealth>();
-            if (healthComp != null) healthComp.OnDeath += WakeUp;
+            var gatekeeperHealth = gatekeeper.GetComponent<EnemyHealth>();
+            if (gatekeeperHealth != null) gatekeeperHealth.OnDeath += WakeUp;
         }
+
+        if (myHealth != null) myHealth.OnDeath += HandleMyDeath;
     }
 
-    void OnDisable()
+    void OnDestroy() 
     {
-        GameObject gatekeeper = GameObject.Find("Gatekeeper");
-        if (gatekeeper != null)
+        EnemyHealth[] allEnemies = FindObjectsByType<EnemyHealth>(FindObjectsSortMode.None);
+        foreach (var enemy in allEnemies)
         {
-            var healthComp = gatekeeper.GetComponent<EnemyHealth>();
-            if (healthComp != null) healthComp.OnDeath -= WakeUp;
+            if (enemy.gameObject.name == "Gatekeeper")
+            {
+                enemy.OnDeath -= WakeUp;
+            }
         }
+
+        if (myHealth != null) myHealth.OnDeath -= HandleMyDeath;
     }
 
     void WakeUp() { isAwake = true; }
@@ -125,18 +132,14 @@ public class BossAI : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isDead) return;
-        health -= damage;
-        if (health <= 0) Die();
-        else anim.SetTrigger("GetHit");
+        if (myHealth != null) myHealth.TakeDamage(damage);
     }
 
-    void Die()
+    void HandleMyDeath()
     {
         isDead = true;
-        anim.ResetTrigger("Attack");
-        anim.ResetTrigger("GetHit");
-        anim.SetTrigger("Death");
+        anim.ResetTrigger("Attack"); // SALDIRIYI KESER
+        anim.ResetTrigger("GetHit"); // HASAR ANİMASYONUNU KESER
         OnBossDeath?.Invoke();
         if (rb != null)
         {
@@ -145,6 +148,5 @@ public class BossAI : MonoBehaviour
         }
         Collider2D coll = GetComponent<Collider2D>();
         if (coll != null) coll.enabled = false;
-        Destroy(gameObject, 2.5f);
     }
 }
