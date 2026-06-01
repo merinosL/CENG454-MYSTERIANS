@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class GatekeeperAI : MonoBehaviour
 {
-    [Header("Health Settings")]
-    public int health = 3;
-
     [Header("Movement Settings")]
     public float moveSpeed = 2.5f;
     public float detectionRange = 8f;
@@ -13,17 +10,14 @@ public class GatekeeperAI : MonoBehaviour
 
     [Header("Combat Settings")]
     public int damage = 1;
-    public float attackCooldown = 1.5f; 
+    public float attackCooldown = 1.5f;
     private float lastAttackTime;
 
     private Transform playerTransform;
     private Rigidbody2D rb;
     private Animator anim;
     private bool isChasing = false;
-    private bool isDead = false; 
-
-    public static event Action OnGatekeeperDeath;
-    public static event Action<int> OnPlayerContact;
+    private bool isDead = false;
 
     void Start()
     {
@@ -38,7 +32,7 @@ public class GatekeeperAI : MonoBehaviour
         if (isDead || playerTransform == null) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-        
+
         if (distanceToPlayer <= detectionRange) isChasing = true;
 
         LookAtPlayer();
@@ -51,7 +45,7 @@ public class GatekeeperAI : MonoBehaviour
         if (isChasing && playerTransform != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-            
+
             if (distanceToPlayer > stopDistance)
             {
                 anim.SetBool("isMoving", true);
@@ -68,7 +62,7 @@ public class GatekeeperAI : MonoBehaviour
                     Attack();
                 }
             }
-        } 
+        }
         else if (rb != null)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
@@ -78,7 +72,7 @@ public class GatekeeperAI : MonoBehaviour
     void Attack()
     {
         lastAttackTime = Time.time;
-        anim.SetTrigger("Attack"); 
+        anim.SetTrigger("Attack");
     }
 
     public void DealDamageEvent()
@@ -87,8 +81,6 @@ public class GatekeeperAI : MonoBehaviour
 
         if (Vector2.Distance(transform.position, playerTransform.position) <= stopDistance + 1f)
         {
-            OnPlayerContact?.Invoke(damage);
-
             PlayerHealth playerHealth = playerTransform.GetComponent<PlayerHealth>();
             if (playerHealth != null) playerHealth.TakeDamage(damage);
 
@@ -110,30 +102,16 @@ public class GatekeeperAI : MonoBehaviour
 
     void Flip() => transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
-    public void TakeDamage(int damage)
-    {
-        if (isDead) return;
-
-        health -= damage;
-        anim.SetTrigger("GetHit"); 
-        if (health <= 0) Die();
-    }
-
-    void Die()
+    public void MarkAsDead()
     {
         isDead = true;
-        anim.SetTrigger("Death");
-        OnGatekeeperDeath?.Invoke();
-
-        if (rb != null) 
+        anim.SetBool("isMoving", false);
+        if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
         }
-        
         Collider2D coll = GetComponent<Collider2D>();
         if (coll != null) coll.enabled = false;
-
-        Destroy(gameObject, 1f); 
     }
 }

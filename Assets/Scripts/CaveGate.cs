@@ -2,22 +2,28 @@ using UnityEngine;
 
 public class CaveGate : MonoBehaviour
 {
+    public GameObject gatekeeper;
+
     private void OnEnable()
     {
-        // Gatekeeper öldüğünde çalışacak fonksiyonu bağla
-        GatekeeperAI.OnGatekeeperDeath += OpenGate;
+        if (gatekeeper != null)
+        {
+            var healthComp = gatekeeper.GetComponent<EnemyHealth>();
+            if (healthComp != null) healthComp.OnDeath += OpenGate;
+        }
     }
 
     private void OnDisable()
     {
-        // Bellek sızıntısını önlemek için bağlantıyı kopar
-        GatekeeperAI.OnGatekeeperDeath -= OpenGate;
+        if (gatekeeper != null)
+        {
+            var healthComp = gatekeeper.GetComponent<EnemyHealth>();
+            if (healthComp != null) healthComp.OnDeath -= OpenGate;
+        }
     }
 
     private void OpenGate()
     {
-        Debug.Log("<color=green>CAVE ENTRY OPENED:</color> Gatekeeper is gone.");
-        // Kapıyı yok et veya animasyon oynat (biz şimdilik yok ediyoruz)
-        Destroy(gameObject); 
+        Destroy(gameObject);
     }
 }

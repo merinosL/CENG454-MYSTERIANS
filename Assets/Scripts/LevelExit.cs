@@ -5,6 +5,7 @@ public class LevelExit : MonoBehaviour
 {
     public WinLoseManager winManager;
     public bool isLevel3 = false;
+    public GameObject boss;
 
     void Start()
     {
@@ -17,6 +18,12 @@ public class LevelExit : MonoBehaviour
         {
             if (isLevel3)
             {
+                if (boss != null && boss.activeInHierarchy)
+                {
+                    Debug.Log("Boss henüz ölmedi! Çýkýþ yapýlamaz.");
+                    return;
+                }
+
                 if (ScoreManager.Instance.score <= 6)
                 {
                     SceneManager.LoadScene("EndScene");
