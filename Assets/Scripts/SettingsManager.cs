@@ -4,11 +4,24 @@ using UnityEngine.Audio;
 
 public class SettingsManager : MonoBehaviour
 {
+    public static SettingsManager Instance { get; private set; }
+
     public GameObject pauseMenuPanel;
     public GameObject settingsMenuPanel;
     public Slider soundSlider;
     public Slider musicSlider;
     public AudioMixer audioMixer;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {
