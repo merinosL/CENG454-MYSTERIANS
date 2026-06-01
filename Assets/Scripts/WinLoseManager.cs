@@ -53,6 +53,12 @@ public class WinLoseManager : MonoBehaviour
     public void RetryLevel()
     {
         Time.timeScale = 1f;
+
+        if (HealthManager.Instance != null)
+        {
+            HealthManager.Instance.currentHealth = 3;
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
