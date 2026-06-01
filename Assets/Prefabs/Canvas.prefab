@@ -1594,6 +1594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970dea997c70bae4c90f5cfcc0d5f247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
+  inventoryPanel: {fileID: 0}
   playerInventory: {fileID: 0}
   potionText: {fileID: 6267769636527259136}
 --- !u!1 &3704177839885814643
@@ -3073,10 +3074,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb60b7301e17a5641afafbc2d46893e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
-  pauseMenuPanel: {fileID: 3724092683571195397}
-  settingsMenuPanel: {fileID: 6396991299415782582}
   soundSlider: {fileID: 1842846182747477853}
   musicSlider: {fileID: 6386928340981519877}
+  audioMixer: {fileID: 0}
 --- !u!1 &5824419609436819334
 GameObject:
   m_ObjectHideFlags: 0
