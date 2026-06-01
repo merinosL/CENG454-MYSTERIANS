@@ -35,6 +35,11 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator AttackRoutine()
     {
         _canAttack = false;
+
+
+        
+        Debug.Log("Kýlýç sesi tetiklendi!");
+        SoundManager.Instance.PlaySound2D("SwordSwing");
         _animator.SetTrigger("attack");
         yield return new WaitForSeconds(hitDelay);
 
@@ -50,8 +55,6 @@ public class PlayerCombat : MonoBehaviour
         if (attackPoint == null) return;
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-        Debug.Log("Vurulan düþman sayýsý: " + hitEnemies.Length);
 
         foreach (Collider2D enemy in hitEnemies)
         {

@@ -1,10 +1,12 @@
 using UnityEngine;
-using UnityEngine;
 
 public class Potion : MonoBehaviour, ICollectible
 {
     public void Collect()
     {
+       
+        SoundManager.Instance.PlaySound3D("PotionPickup", transform.position);
+
         PlayerInventory inventory = FindFirstObjectByType<PlayerInventory>();
 
         if (inventory != null)
@@ -12,7 +14,6 @@ public class Potion : MonoBehaviour, ICollectible
             inventory.AddPotion(1);
         }
 
-        
         if (ScoreManager.Instance != null)
         {
             ScoreManager.Instance.AddScore(1);

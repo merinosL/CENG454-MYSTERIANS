@@ -61,6 +61,7 @@ public class EnemyHealth : MonoBehaviour
         if (_animator != null)
         {
             _animator.SetTrigger("Death");
+            SoundManager.Instance.PlaySound3D("EnemyDeath", transform.position);
         }
 
         if (_rb != null)

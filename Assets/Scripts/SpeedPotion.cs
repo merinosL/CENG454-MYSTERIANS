@@ -6,13 +6,13 @@ public class SpeedPotion : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerController player =
-                other.GetComponent<PlayerController>();
+            SoundManager.Instance.PlaySound3D("Powerup", transform.position);
+
+            PlayerController player = other.GetComponent<PlayerController>();
 
             if (player != null)
             {
-                player.StartCoroutine(
-                    player.SpeedBoost(2f, 3f));
+                player.StartCoroutine(player.SpeedBoost(2f, 3f));
             }
 
             Destroy(gameObject);

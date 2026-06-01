@@ -208,6 +208,7 @@ public class EnemyAI : MonoBehaviour
     void Die()
     {
         currentState = State.Dead;
+        SoundManager.Instance.PlaySound3D("EnemyDeath", transform.position);
         animator.SetTrigger("Death");
         
         GetComponent<Collider2D>().enabled = false;
