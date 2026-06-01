@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private SoundLibrary sfxLibrary;
     [SerializeField] private AudioSource sfx2DSource;
+    [SerializeField] private AudioMixerGroup sfxGroup;
 
     private void Awake()
     {
@@ -13,17 +15,26 @@ public class SoundManager : MonoBehaviour
         else { Instance = this; DontDestroyOnLoad(gameObject); }
     }
 
-    public void PlaySound3D(AudioClip clip, Vector3 pos)
-    {
-        if (clip != null) AudioSource.PlayClipAtPoint(clip, pos);
-        else Debug.LogWarning("PlaySound3D: AudioClip null!");
-    }
-
     public void PlaySound3D(string soundName, Vector3 pos)
     {
         AudioClip clip = sfxLibrary.GetClipFromName(soundName);
-        if (clip != null) PlaySound3D(clip, pos);
-        else Debug.LogWarning("PlaySound3D: " + soundName + " bulunamadý!");
+        if (clip != null)
+        {
+            GameObject tempAudioObj = new GameObject("TempAudio: " + soundName);
+            tempAudioObj.transform.position = pos;
+
+            AudioSource aSource = tempAudioObj.AddComponent<AudioSource>();
+            aSource.outputAudioMixerGroup = sfxGroup;
+            aSource.clip = clip;
+            aSource.spatialBlend = 1f;
+            aSource.Play();
+
+            Destroy(tempAudioObj, clip.length);
+        }
+        else
+        {
+            Debug.LogWarning("PlaySound3D: " + soundName + " bulunamadý!");
+        }
     }
 
     public void PlaySound2D(string soundName)
