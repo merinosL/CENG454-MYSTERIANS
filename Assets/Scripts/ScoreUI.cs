@@ -24,6 +24,6 @@ public class ScoreUI : MonoBehaviour
 
     void UpdateScore(int score)
     {
-        scoreText.text = "Poition: " + score;
+        scoreText.text = "Potion: " + score;
     }
 }
