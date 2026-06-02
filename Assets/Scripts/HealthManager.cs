@@ -1,17 +1,17 @@
 using UnityEngine;
 
 using UnityEngine.SceneManagement;
- 
+
 public class HealthManager : MonoBehaviour
 
 {
 
     public static HealthManager Instance;
- 
+
     public int maxHealth = 5;
 
     public int currentHealth = 3;
- 
+
     private void Awake()
 
     {
@@ -37,15 +37,21 @@ public class HealthManager : MonoBehaviour
         }
 
     }
- 
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 
     {
 
-        currentHealth = 3;
+        if (scene.name == "MainMenu" || scene.name == "Intro")
+
+        {
+
+            currentHealth = 3;
+
+        }
 
     }
- 
+
     private void OnDestroy()
 
     {
@@ -55,4 +61,3 @@ public class HealthManager : MonoBehaviour
     }
 
 }
- 
